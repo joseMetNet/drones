@@ -72,7 +72,7 @@
 	</div>
 	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="showCoordinates">
 		<div class="row">
-			<fieldset class="col-10 col-sm-8 col-md-8 d-flex justify-content-center">
+			<fieldset class="col-10 col-sm-8 col-md-10 d-flex justify-content-center">
 				<strong>Coordenadas</strong>
 				<br>
 				<table class="default mt-5">
@@ -84,8 +84,8 @@
 					<tr formArrayName="coordinates" *ngFor="let creds of vehicleForm.controls['coordinates']?.value; let idx = index">
 						<th>{{idx+1}}</th>
 						<ng-container [formGroupName]="idx">
-							<td ><input type="text" class="form-control" formControlName="x"></td>
-							<td ><input type="text" class="form-control" formControlName="y"></td>
+							<td><input type="text" class="form-control" formControlName="x"/></td>
+							<td><input type="text" class="form-control" formControlName="y"/></td>
 						</ng-container>
 					</tr>
 				</table>
