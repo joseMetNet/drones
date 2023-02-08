@@ -1,90 +1,98 @@
 
-<form class="px-5 py-4 row justify-content-center align-items-center" [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-	<fieldset class="col-10 col-sm-6 col-md-6">
-		<legend></legend>
-		<div class="">
-			<label for="deposito" class="form-label">Deposito</label>
-			<div class="input-group mb-3">
-				<span class="input-group-text" id="deposito">{{deposit ? deposit : 0}}</span>
-				<input type="text" formControlName="deposit" class="form-control" id="deposito" aria-describedby="deposito"
-				(paste)="bsLogicService.onPasteCheckNumber($event)"
-				(keypress)="bsLogicService.checkNumber($event)"/>
-			</div>
+<form class="row  justify-content-center align-items-start" [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+	<div class="col-12 col-md-6 card px-5 py-4  mx-1">
+		<div class="row align-items-center">
+			<fieldset class="col-10 col-sm-6 col-md-6">
+				<legend></legend>
+				<div class="">
+					<label for="deposito" class="form-label">Deposito</label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="deposito">{{deposit ? deposit : 0}}</span>
+						<input type="text" formControlName="deposit" class="form-control" id="deposito" aria-describedby="deposito"
+						(paste)="bsLogicService.onPasteCheckNumber($event)"
+						(keypress)="bsLogicService.checkNumber($event)"/>
+					</div>
+				</div>
+				<div class="">
+					<label for="EstacionVehiculo" class="form-label">Estación Vehículo</label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="EstacionVehiculo">{{vehicleStation ? vehicleStation : 0}}</span>
+						<input type="text" formControlName="vehicle_station" class="form-control" id="EstacionVehiculo" aria-describedby="EstacionVehiculo"/>
+					</div>
+				</div>
+				<div class="mb-2">
+					<label for="clienteDron" class="form-label">Cliente (Dron)</label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="clienteDron">
+							{{customer ? customer : 0}}
+						</span>
+						<input type="text" formControlName="customer" class="form-control" id="clienteDron" aria-describedby="clienteDron"/>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="col-10 col-sm-6 col-md-6">
+				<strong>Restricciones de Vehículo</strong>
+				<div class="mb-2">
+					<label for="capacidadCarga" class="form-label">Capacidad de Carga <em>(Q)</em></label>
+					<div class="input-group mb-3">
+						<input type="text" formControlName="loading_capacity_vehicle" class="form-control" id="capacidadCarga"
+						(paste)="bsLogicService.onPasteCheckNumber($event)"
+						(keypress)="bsLogicService.checkNumber($event)" />
+						<span class="input-group-text" id="capacidadCarga">
+							KG
+						</span>
+					</div>
+				</div>
+				<strong>Restricciones Dron</strong>
+				<div class="mb-2">
+					<label for="rangoVuelo" class="form-label">Rango de Vuelo <em>(r<sub>d</sub>)</em></label>
+					<div class="input-group mb-3">
+						<input type="text" formControlName="flight_range" class="form-control" id="rangoVuelo" 
+						(paste)="bsLogicService.onPasteCheckNumber($event)"
+						(keypress)="bsLogicService.checkNumber($event)"/>
+						<span class="input-group-text" id="rangoVuelo">
+							MTS
+						</span>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="capacidadCargaDron" class="form-label">Capacidad de Carga <em>(W<sub>d</sub>)</em></label>
+					<div class="input-group mb-3">
+						<input type="text" formControlName="loading_capacity_drone" class="form-control" id="capacidadCargaDron" 
+						(paste)="bsLogicService.onPasteCheckNumber($event)"
+						(keypress)="bsLogicService.checkNumber($event)"/>
+						<span class="input-group-text" id="capacidadCargaDron">
+							KG
+						</span>
+					</div>
+				</div>
+			</fieldset>
+			<button (click)="validateCoordinates()" [class]="vehicleForm.valid ? '' : 'disabled'" class="btn btn-primary">Ingresar coordenadas</button>
 		</div>
-		<div class="">
-			<label for="EstacionVehiculo" class="form-label">Estación Vehículo</label>
-			<div class="input-group mb-3">
-				<span class="input-group-text" id="EstacionVehiculo">{{vehicleStation ? vehicleStation : 0}}</span>
-				<input type="text" formControlName="vehicle_station" class="form-control" id="EstacionVehiculo" aria-describedby="EstacionVehiculo"/>
-			</div>
+	</div>
+	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="showCoordinates">
+		<div class="row">
+			<fieldset class="col-10 col-sm-8 col-md-8 d-flex justify-content-center">
+				<strong>Coordenadas</strong>
+				<br>
+				<table class="default mt-5">
+					<tr class="text-center">
+						<th scope="row"></th>
+						<th><em>X</em></th>
+						<th><em>Y</em></th>
+					</tr>
+					<tr formArrayName="coordinates" *ngFor="let creds of vehicleForm.controls['coordinates']?.value; let idx = index">
+						<th>{{idx+1}}</th>
+						<ng-container [formGroupName]="idx">
+							<td ><input type="text" class="form-control" formControlName="x"></td>
+							<td ><input type="text" class="form-control" formControlName="y"></td>
+						</ng-container>
+					</tr>
+				</table>
+			</fieldset>
+			<button type="submit" class="btn btn-primary">Enviar información</button>
 		</div>
-		<div class="mb-2">
-			<label for="clienteDron" class="form-label">Cliente (Dron)</label>
-			<div class="input-group mb-3">
-				<span class="input-group-text" id="clienteDron">
-					{{customer ? customer : 0}}
-				</span>
-				<input type="text" formControlName="customer" class="form-control" id="clienteDron" aria-describedby="clienteDron"/>
-			</div>
-		</div>
-	</fieldset>
-	<fieldset class="col-10 col-sm-6 col-md-6">
-		<strong>Restricciones de Vehículo</strong>
-		<div class="mb-2">
-			<label for="capacidadCarga" class="form-label">Capacidad de Carga <em>(Q)</em></label>
+	</div>
 
-			<div class="input-group mb-3">
-				<input type="text" formControlName="loading_capacity_vehicle" class="form-control" id="capacidadCarga"
-				(paste)="bsLogicService.onPasteCheckNumber($event)"
-				(keypress)="bsLogicService.checkNumber($event)" />
-				<span class="input-group-text" id="capacidadCarga">
-					KG
-				</span>
-			</div>
-		</div>
-		<strong>Restricciones Dron</strong>
-		<div class="mb-2">
-			<label for="rangoVuelo" class="form-label">Rango de Vuelo <em>(r<sub>d</sub>)</em></label>
-			<div class="input-group mb-3">
-				<input type="text" formControlName="flight_range" class="form-control" id="rangoVuelo" 
-				(paste)="bsLogicService.onPasteCheckNumber($event)"
-				(keypress)="bsLogicService.checkNumber($event)"/>
-				<span class="input-group-text" id="rangoVuelo">
-					MTS
-				</span>
-			</div>
-		</div>
-		<div class="mb-3">
-			<label for="capacidadCargaDron" class="form-label">Capacidad de Carga <em>(W<sub>d</sub>)</em></label>
-			<div class="input-group mb-3">
-				<input type="text" formControlName="loading_capacity_drone" class="form-control" id="capacidadCargaDron" 
-				(paste)="bsLogicService.onPasteCheckNumber($event)"
-				(keypress)="bsLogicService.checkNumber($event)"/>
-				<span class="input-group-text" id="capacidadCargaDron">
-					KG
-				</span>
-			</div>
-		</div>
-	</fieldset>
 
-	<button (click)="validateCoordinates()" class="btn btn-primary">Ingresar coordenadas</button>
-
-	<fieldset class="col-10 col-sm-6 col-md-4" >
-		<strong>Coordenadas</strong>
-		<table class="default">
-			<tr class="text-center">
-				<th scope="row"></th>
-				<th><em>X</em></th>
-				<th><em>Y</em></th>
-			</tr>
-			<tr formArrayName="coordinates" *ngFor="let creds of vehicleForm.controls['coordinates']?.value; let idx = index">
-				<th>{{idx+1}}</th>
-				<ng-container [formGroupName]="idx">
-					<td ><input type="text" class="form-control" formControlName="x"></td>
-					<td ><input type="text" class="form-control" formControlName="y"></td>
-				</ng-container>
-			</tr>
-		</table>
-	</fieldset>
-	<button type="submit" class="btn btn-primary">Enviar información</button>
 </form>

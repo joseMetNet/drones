@@ -12,6 +12,7 @@ export class DroneComponent {
   customer:number=1;
   vehicleStation:number=1;
   deposit:number=1;
+  showCoordinates:boolean=false;
 
   constructor(private formBuilder: FormBuilder,
     public bsLogicService:BusinessService){
@@ -35,30 +36,30 @@ export class DroneComponent {
   }
 
   addCoordinates(){
-    const coords = this.vehicleForm.controls['coordinates'] as FormArray;
+    const coords = (this.vehicleForm.controls['coordinates'] as FormArray);
     coords.push(this.formBuilder.group({
       x: '',
       y: '',
     }));
-    //this.coordinatesArray.push(this.formBuilder.control([0,0],[Validators.required]));
   }
 
-  validateCoordinates(){
-    let rows= this.vehicleStation + this.customer;
-    let cols=2;
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        this.addCoordinates()
-      }
+  clearFormArray = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
     }
   }
 
+
+  validateCoordinates(){
+    this.clearFormArray(this.coordinatesArray)
+    let rows= this.vehicleStation + this.customer;
+    for (let i = 0; i < rows; i++) {
+        this.addCoordinates()
+    }
+    this.showCoordinates = true;
+  }
+
   onSubmit(){
-    /* this.vehicleForm.patchValue({
-      vehicle_station: this.vehicleForm.controls['vehicle_station'].value.split(','),
-      customer: this.vehicleForm.controls['customer'].value.split(','),
-    }); */
     console.log(this.vehicleForm.value);
-    
   }
 }

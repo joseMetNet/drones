@@ -3,3 +3,11 @@
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "../src/assets/sass/variables.scss";
+
+body{
+    background-image: url('../../drones/src/assets/img/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: scroll;
+}
