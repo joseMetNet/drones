@@ -1,0 +1,69 @@
+/* Primary */
+$blueBase:#176BF8;
+$blueLight:#29A9E0;
+$blueDark:#383DCA;
+
+$yellowBase:#FFA63F;
+$yellowLight:#FBC50F;
+$yellowDark:#ecb00b;
+
+$orangeBase:#F5911E;
+$orangeLight:#fba80f;
+$orangeDark:#CD8009;
+
+$redBase:#FF2D2E;
+$redLight:#FE8697;
+$redDark:#D82740;
+
+$greenBase:#28A745;
+$greenLight:#5EFF5A;
+$greenDark:#1A7F31;
+$greenAlternativeLight:#00B0A6;
+
+/* Secondary dark-mode */
+$secondaryBlue30:hsl(198, 75%, 52%,0.3 );
+$secondaryBlue15:hsl(198, 75%, 52%,0.15);
+$secondaryBlue10:hsl(198, 75%, 52%,0.1 );
+
+$secondaryOrange30:rgba(245, 145, 30, 0.3);;
+$secondaryOrange15:rgba(235, 139, 6, 0.15);;
+$secondaryOrange10:rgba(235, 139, 6, 0.102);
+
+$secondaryRed30:hsl(352, 89%, 60%,0.3 );
+$secondaryRed15:hsl(352, 89%, 60%,0.15);
+$secondaryRed10:hsl(352, 89%, 60%,0.1 );
+
+$secondaryGreen30:hsl(134, 65%, 53%,0.3 );
+$secondaryGreen15:hsl(134, 65%, 53%,0.15);
+$secondaryGreen10:hsl(134, 65%, 53%,0.1 );
+
+/* Grays */
+$greyFooter:#E5E5E5;
+$greyLight:#F5F5F5;
+$greyInactive:#CCCCCC;
+$greyAlternative:#6C757D;
+$edition: #EFF9FF;
+
+/* Status */
+$statusSuccess:#5EFF5A;
+$statusAlert:#FF2D2E;
+$statusWarning:#FFA63F;
+$statusInformation:#176BF8;
+
+/* Fonts */
+$fontsHeaders:#152536;
+$fontsBody:#51585D;
+$fontsBodyDarkMode:#9B9D9F;
+
+/* Dark Mode */
+$darkModeBackground:#272934;
+$darkModeCards:#313442;
+$darkModeSiteBar:#1F2129;
+$darkModeInactive:#3E404B;
+
+$white: #FFFFFF;
+
+/* Backgrounds */
+$backgroundBase:#191932;
+$backgroundLight:#383874;
+$backgroundDark:#050510;

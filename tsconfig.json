@@ -1,0 +1,56 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@interfaces/*": ["src/app/helpers/interfaces/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@service/*": ["src/app/helpers/services/*"],
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "rootDir": "./src" ,
+    /* Experimental Options */
+    "emitDecoratorMetadata": true,
+    "skipLibCheck":true,
+    "skipDefaultLibCheck": true,
+    "strictFunctionTypes": false,
+    "exactOptionalPropertyTypes": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "checkJs": false,
+    "noStrictGenericChecks": true,
+    "allowUnusedLabels": false,
+    "types": [ "node" ],
+    "typeRoots": [ "./node_modules/@types" ],
+    "resolveJsonModule":true,
+    "allowSyntheticDefaultImports":true,
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
