@@ -13,7 +13,7 @@ export class DroneComponent {
   vehicleStation:number=1;
   deposit:number=1;
   showCoordinates:boolean=false;
-
+  request:any;
   constructor(private formBuilder: FormBuilder,
     public bsLogicService:BusinessService){
     this.vehicleForm = this.formBuilder.group({
@@ -60,6 +60,15 @@ export class DroneComponent {
   }
 
   onSubmit(){
-    console.log(this.vehicleForm.value);
+    let deposit= this.vehicleForm.controls['deposit'].value.toString().split(',');
+    let vehicle_station= this.vehicleForm.controls['vehicle_station'].value.toString().split(',');
+    let customer= this.vehicleForm.controls['customer'].value.toString().split(',');
+    this.vehicleForm.patchValue({
+      deposit: deposit,
+      vehicle_station: vehicle_station,
+      customer: customer,
+    })
+    console.log(JSON.stringify(this.vehicleForm.value));
+    this.request = [0,1,5,7,1,4,6,2,3,2,0]
   }
 }

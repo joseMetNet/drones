@@ -1,0 +1,16 @@
+{
+  "deposit": ["0"],
+  "vehicle_station": [1, 2, 3, 4],
+  "customer": [5, 6],
+  "loading_capacity_vehicle": "1000",
+  "flight_range": "1000",
+  "loading_capacity_drone": "1000",
+  "coordinates": [
+    { "x": 1, "y": 5 },
+    { "x": 7, "y": 5 },
+    { "x": 5, "y": 4 },
+    { "x": 6, "y": 6 },
+    { "x": 2, "y": 1 },
+    { "x": 0, "y": 3 }
+  ]
+}

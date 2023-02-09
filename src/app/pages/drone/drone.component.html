@@ -67,7 +67,7 @@
 					</div>
 				</div>
 			</fieldset>
-			<button (click)="validateCoordinates()" [class]="vehicleForm.valid ? '' : 'disabled'" class="btn btn-primary">Ingresar coordenadas</button>
+			<button (click)="validateCoordinates()" [class]="vehicleForm.valid ? '' : 'disabled'" type="button" class="btn btn-primary">Ingresar coordenadas</button>
 		</div>
 	</div>
 	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="showCoordinates">
@@ -84,8 +84,8 @@
 					<tr formArrayName="coordinates" *ngFor="let creds of vehicleForm.controls['coordinates']?.value; let idx = index">
 						<th>{{idx+1}}</th>
 						<ng-container [formGroupName]="idx">
-							<td><input type="text" class="form-control" formControlName="x"/></td>
-							<td><input type="text" class="form-control" formControlName="y"/></td>
+							<td><input type="text" class="form-control" [id]="'x'+idx" formControlName="x"/></td>
+							<td><input type="text" class="form-control" [id]="'y'+idx" formControlName="y"/></td>
 						</ng-container>
 					</tr>
 				</table>
@@ -93,6 +93,18 @@
 			<button type="submit" class="btn btn-primary">Enviar información</button>
 		</div>
 	</div>
-
-
 </form>
+<div class="row justify-content-center mt-4">
+	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="request">
+		<div class="row">
+			<fieldset class="col-10 col-sm-8 col-md-10 d-flex justify-content-center">
+				<strong>Ruta</strong>
+				<div class="d-flex align-items-center mt-3">
+					<div class="p-2" *ngFor="let item of request">
+						<p><strong>{{item}}</strong></p>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</div>
