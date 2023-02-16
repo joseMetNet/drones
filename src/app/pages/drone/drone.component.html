@@ -20,6 +20,13 @@
 						<input type="text" formControlName="vehicle_station" class="form-control" id="EstacionVehiculo" aria-describedby="EstacionVehiculo"/>
 					</div>
 				</div>
+				<div class="">
+					<label for="costoXvehiculo" class="form-label">Costo por Vehículo</label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="costoXvehiculo">$</span>
+						<input type="text" formControlName="cost_per_vehicle" class="form-control" id="costoXvehiculo" aria-describedby="costoXvehiculo"/>
+					</div>
+				</div>
 				<div class="mb-2">
 					<label for="clienteDron" class="form-label">Cliente (Dron)</label>
 					<div class="input-group mb-3">
@@ -27,6 +34,13 @@
 							{{customer ? customer : 0}}
 						</span>
 						<input type="text" formControlName="customer" class="form-control" id="clienteDron" aria-describedby="clienteDron"/>
+					</div>
+				</div>
+				<div class="">
+					<label for="costoXdrone" class="form-label">Costo por Dron</label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="costoXdrone">$</span>
+						<input type="text" formControlName="cost_per_drone" class="form-control" id="costoXdrone" aria-describedby="costoXdrone"/>
 					</div>
 				</div>
 			</fieldset>

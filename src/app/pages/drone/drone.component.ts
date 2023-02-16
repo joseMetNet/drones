@@ -19,7 +19,9 @@ export class DroneComponent {
     this.vehicleForm = this.formBuilder.group({
       deposit: [0, [Validators.required]],
       vehicle_station: [0, [Validators.required]],
+      cost_per_vehicle: [0, [Validators.required]],
       customer: [0, [Validators.required]],
+      cost_per_drone: [0, [Validators.required]],
       loading_capacity_vehicle: [null, [Validators.required]],
       flight_range: [null, [Validators.required]],
       loading_capacity_drone: [null, [Validators.required]],
