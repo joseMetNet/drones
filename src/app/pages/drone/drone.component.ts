@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BusinessService } from '@service/business.service';
+import { ConnectionService } from '@service/connection.service';
 
 @Component({
   selector: 'app-drone',
@@ -15,7 +16,8 @@ export class DroneComponent {
   showCoordinates:boolean=false;
   request:any;
   constructor(private formBuilder: FormBuilder,
-    public bsLogicService:BusinessService){
+    public bsLogicService:BusinessService,
+    private conService:ConnectionService){
     this.vehicleForm = this.formBuilder.group({
       deposit: [0, [Validators.required]],
       vehicle_station: [0, [Validators.required]],
@@ -70,7 +72,69 @@ export class DroneComponent {
       vehicle_station: vehicle_station,
       customer: customer,
     })
-    console.log(JSON.stringify(this.vehicleForm.value));
+    this.vehicleForm.controls['coordinates'].value.map((el:any, idx:number) =>{
+      let data = {
+        coordinateX: el.x,
+        coordinateY: el.y,
+        station: (idx+1).toString()
+      }
+      this.conService.insertCoordinates(data).subscribe({
+        next:(el:any)=>{
+          console.log(el);
+        }
+      })
+    })
+    vehicle_station.map((el:any) =>{
+      let data = {
+        nameTypeStation: 'Vehicles',
+        numStation: el
+      }
+      console.log('vehicleForm', data);
+      this.conService.createStations(data).subscribe({
+        next:(el:any)=>{
+          console.log(el);
+        }
+      })
+    })
+    customer.map((el:any) =>{
+      let data = {
+        nameTypeStation: 'Client',
+        numStation: el
+      }
+      console.log('customer',data);
+      this.conService.createStations(data).subscribe({
+        next:(el:any)=>{
+          console.log(el);
+        }
+      })
+    })
+    this.conService.createStations({nameTypeStation: 'Deposito',numStation:0}).subscribe({
+      next:(res:any)=>{}
+    })
+    this.vehicleForm.controls['coordinates'].value.map((el:any, idx:number) =>{
+      let data = {
+        coordinateX: el.x,
+        coordinateY: el.y,
+        station: (idx+1).toString()
+      }
+      this.conService.insertCoordinates(data).subscribe({
+        next:(el:any)=>{
+          console.log(el);
+        }
+      })
+    })
+    this.conService.createRestrictions({
+      nameTypeRestriction: 'Capacidad de carga (Q)',
+      valueRestriction: this.vehicleForm.controls['loading_capacity_vehicle'].value
+    }).subscribe({next:(res:any)=>{}})
+    this.conService.createRestrictions({
+      nameTypeRestriction: 'Capacidad de carga (Q)',
+      valueRestriction: this.vehicleForm.controls['flight_range'].value
+    }).subscribe({next:(res:any)=>{}})
+    this.conService.createRestrictions({
+      nameTypeRestriction: 'Rango de Vuelo',
+      valueRestriction: this.vehicleForm.controls['loading_capacity_drone'].value
+    }).subscribe({next:(res:any)=>{}})
     this.request = [0,1,5,7,1,4,6,2,3,2,0]
   }
 }
