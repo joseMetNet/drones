@@ -97,10 +97,10 @@
 					</tr>
 					<tr formArrayName="coordinates" *ngFor="let creds of vehicleForm.controls['coordinates']?.value; let idx = index">
 						<th>{{idx+1}}</th>
-						<ng-container [formGroupName]="idx">
-							<td><input type="text" class="form-control" [id]="'x'+idx" formControlName="x"/></td>
-							<td><input type="text" class="form-control" [id]="'y'+idx" formControlName="y"/></td>
-						</ng-container>
+						<div [formGroupName]="idx">
+							<td><input type="textarea" class="form-control" [id]="'x'+idx" formControlName="x"/></td>
+							<td><input type="textarea" class="form-control" [id]="'y'+idx" formControlName="y"/></td>
+						</div>
 					</tr>
 				</table>
 			</fieldset>
@@ -109,8 +109,8 @@
 	</div>
 </form>
 <div class="row justify-content-center mt-4">
-	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="request">
-		<div class="row">
+	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="request.length>0" >
+		<div class="row justify-content-center">
 			<fieldset class="col-10 col-sm-8 col-md-10 d-flex justify-content-center">
 				<strong>Ruta</strong>
 				<div class="d-flex align-items-center mt-3">

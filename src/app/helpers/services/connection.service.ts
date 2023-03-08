@@ -103,4 +103,25 @@ export class ConnectionService {
   createRestrictions(data: any) {
     return this.http.post(`${baseApp}/CreateRestrictions`, data);
   }
+
+  calculateDistances(){
+    let data={}
+    return this.http.post(`${baseApp}/CalculateDistances`, data);
+  }
+  saveCloserSavings(){
+    let data={}
+    return this.http.post(`${baseApp}/SaveCloserSavings`, data);
+  }
+  saveCloserStation(){
+    let data={}
+    return this.http.post(`${baseApp}/SaveCloserStation`, data);
+  }
+  createPartialWay(){
+    let data={}
+    return this.http.post(`${baseApp}/CreatePartialWay`, data);
+  }
+  createFinalWay(){
+    let data={}
+    return this.http.post(`${baseApp}/CreateFinalWay`, data);
+  }
 }

@@ -14,7 +14,7 @@ export class DroneComponent {
   vehicleStation:number=1;
   deposit:number=1;
   showCoordinates:boolean=false;
-  request:any;
+  request:any[]=[];
   constructor(private formBuilder: FormBuilder,
     public bsLogicService:BusinessService,
     private conService:ConnectionService){
@@ -108,7 +108,7 @@ export class DroneComponent {
         }
       })
     })
-    this.conService.createStations({nameTypeStation: 'Deposito',numStation:0}).subscribe({
+    this.conService.createStations({nameTypeStation: 'Deposito',numStation:'0'}).subscribe({
       next:(res:any)=>{}
     })
     this.vehicleForm.controls['coordinates'].value.map((el:any, idx:number) =>{
@@ -135,6 +135,16 @@ export class DroneComponent {
       nameTypeRestriction: 'Rango de Vuelo',
       valueRestriction: this.vehicleForm.controls['loading_capacity_drone'].value
     }).subscribe({next:(res:any)=>{}})
-    this.request = [0,1,5,7,1,4,6,2,3,2,0]
+    this.conService.calculateDistances().subscribe({next:(res:any)=>{}});
+    this.conService.saveCloserSavings().subscribe({next:(res:any)=>{}});
+    this.conService.saveCloserStation().subscribe({next:(res:any)=>{}});
+    this.conService.createPartialWay().subscribe({next:(res:any)=>{
+      if (res) {
+        res.map((el:any)=>{
+          console.log(el.idStation);
+          this.request.push(el.idStation)
+        })
+      }
+    }});
   }
 }
