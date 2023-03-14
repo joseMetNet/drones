@@ -16,6 +16,7 @@ export class DroneComponent {
   deposit:number=1;
   showCoordinates:boolean=false;
   request:any[]=[];
+  isLoading:boolean=false;
   constructor(private formBuilder: FormBuilder,
     public bsLogicService:BusinessService,
     private conService:ConnectionService){
@@ -66,6 +67,7 @@ export class DroneComponent {
   }
 
   onSubmit(){
+    this.isLoading = true;
     let deposit= this.vehicleForm.controls['deposit'].value.toString().split(',');
     let vehicle_station= this.vehicleForm.controls['vehicle_station'].value.toString().split(',');
     let customer= this.vehicleForm.controls['customer'].value.toString().split(',');
@@ -117,7 +119,7 @@ export class DroneComponent {
       let data = {
         coordinateX: el.x,
         coordinateY: el.y,
-        station: (idx+1).toString()
+        station: (idx).toString()
       }
       this.conService.insertCoordinates(data).subscribe({
         next:(el:any)=>{
@@ -144,6 +146,7 @@ export class DroneComponent {
       {
         next:(res:any)=>{
           if (res) {
+            this.isLoading = false;
             Swal.fire({
               title: '¡Perfecto!',
               text: "Ruta calculada ",
@@ -163,6 +166,7 @@ export class DroneComponent {
           }
         },
         error:(err)=>{
+          this.isLoading = false;
           Swal.fire({
             title: 'Error',
             text: "No fue posible generar una ruta " ,
