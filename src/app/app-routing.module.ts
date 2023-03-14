@@ -8,9 +8,9 @@ const routes: Routes = [
     path: "",
     component: LayoutComponent,
     children:[
-      { path: "", pathMatch: "full", redirectTo: "index" },
-      { path: "index", component: HomeComponent},
-      { path: "**", redirectTo: "index" },
+      //{ path: "", pathMatch: "full", redirectTo: "index" },
+      { path: "", component: HomeComponent},
+      { path: "**", redirectTo: "" },
     ]
   }
 ];
