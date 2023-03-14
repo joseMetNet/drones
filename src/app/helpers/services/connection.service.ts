@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 const baseApp = environment.backendUrl;
 
+const headers = new HttpHeaders({
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept'
+})
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +21,11 @@ export class ConnectionService {
   /**
    * Function to return shortest route
    */
-  getShortestRoute(data: any): Observable<any> {
-    return this.http.get(`${baseApp}/shortestroute/`);
+  getShortestRoute(data: any): Observable<any>{
+    return this.http.get(`${baseApp}/shortestroute/`,
+    {
+      headers: headers
+    });
   }
 
   /**
@@ -52,8 +60,11 @@ export class ConnectionService {
    * }
    * ```
    */
-  autenticarUser(data: any) {
-    return this.http.post(`${baseApp}/AutenticarUser/`, data);
+  autenticarUser(data: any): Observable<any>{
+    return this.http.post(`${baseApp}/AutenticarUser/`, data,
+    {
+      headers: headers
+    });
   }
 
   /**
@@ -73,8 +84,11 @@ export class ConnectionService {
    * }
    * ```
    */
-  cuentasApi(data: any) {
-    return this.http.post(`${baseApp}/api/CuentasApi/Login`, data);
+  cuentasApi(data: any): Observable<any> {
+    return this.http.post(`${baseApp}/api/CuentasApi/Login`, data,
+    {
+      headers: headers
+    });
   }
 
   /**
@@ -82,8 +96,11 @@ export class ConnectionService {
    * @param data
    * @returns
    */
-  createStations(data: any) {
-    return this.http.post(`${baseApp}/CreateStations`, data);
+  createStations(data: any): Observable<any> {
+    return this.http.post(`${baseApp}/CreateStations`, data,
+    {
+      headers: headers
+    });
   }
 
   /**
@@ -91,8 +108,11 @@ export class ConnectionService {
    * @param data
    * @returns
    */
-  insertCoordinates(data: any) {
-    return this.http.post(`${baseApp}/InsertCoordinates`, data);
+  insertCoordinates(data: any): Observable<any> {
+    return this.http.post(`${baseApp}/InsertCoordinates`, data,
+    {
+      headers: headers
+    });
   }
 
   /**
@@ -100,28 +120,46 @@ export class ConnectionService {
    * @param data
    * @returns
    */
-  createRestrictions(data: any) {
-    return this.http.post(`${baseApp}/CreateRestrictions`, data);
+  createRestrictions(data: any): Observable<any> {
+    return this.http.post(`${baseApp}/CreateRestrictions`, data,
+    {
+      headers: headers
+    });
   }
 
-  calculateDistances(){
+  calculateDistances(): Observable<any>{
     let data={}
-    return this.http.post(`${baseApp}/CalculateDistances`, data);
+    return this.http.post(`${baseApp}/CalculateDistances`, data,
+    {
+      headers: headers
+    });
   }
-  saveCloserSavings(){
+  saveCloserSavings(): Observable<any>{
     let data={}
-    return this.http.post(`${baseApp}/SaveCloserSavings`, data);
+    return this.http.post(`${baseApp}/SaveCloserSavings`, data,
+    {
+      headers: headers
+    });
   }
-  saveCloserStation(){
+  saveCloserStation(): Observable<any>{
     let data={}
-    return this.http.post(`${baseApp}/SaveCloserStation`, data);
+    return this.http.post(`${baseApp}/SaveCloserStation`, data,
+    {
+      headers: headers
+    });
   }
-  createPartialWay(){
+  createPartialWay(): Observable<any>{
     let data={}
-    return this.http.post(`${baseApp}/CreatePartialWay`, data);
+    return this.http.post(`${baseApp}/CreatePartialWay`, data,
+    {
+      headers: headers
+    });
   }
-  createFinalWay(){
+  createFinalWay(): Observable<any>{
     let data={}
-    return this.http.post(`${baseApp}/CreateFinalWay`, data);
+    return this.http.post(`${baseApp}/CreateFinalWay`, data,
+    {
+      headers: headers
+    });
   }
 }

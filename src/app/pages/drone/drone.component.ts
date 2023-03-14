@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BusinessService } from '@service/business.service';
 import { ConnectionService } from '@service/connection.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-drone',
@@ -57,10 +58,11 @@ export class DroneComponent {
   validateCoordinates(){
     this.clearFormArray(this.coordinatesArray)
     let rows= this.vehicleStation + this.customer;
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i <= rows; i++) {
         this.addCoordinates()
     }
     this.showCoordinates = true;
+    this.request = []
   }
 
   onSubmit(){
@@ -138,13 +140,37 @@ export class DroneComponent {
     this.conService.calculateDistances().subscribe({next:(res:any)=>{}});
     this.conService.saveCloserSavings().subscribe({next:(res:any)=>{}});
     this.conService.saveCloserStation().subscribe({next:(res:any)=>{}});
-    this.conService.createPartialWay().subscribe({next:(res:any)=>{
-      if (res) {
-        res.map((el:any)=>{
-          console.log(el.idStation);
-          this.request.push(el.idStation)
-        })
+    this.conService.createPartialWay().subscribe(
+      {
+        next:(res:any)=>{
+          if (res) {
+            Swal.fire({
+              title: '¡Perfecto!',
+              text: "Ruta calculada ",
+              icon: 'success',
+              showCancelButton: true,
+              confirmButtonColor: '#28a745',
+              confirmButtonText: 'Ver ruta'
+            }).then((result) => {
+              if (result.value){
+                //console.log(result.value);
+                res.map((el:any)=>{
+                  console.log(el.idStation);
+                  this.request.push(el.idStation)
+                })
+              }
+            })
+          }
+        },
+        error:(err)=>{
+          Swal.fire({
+            title: 'Error',
+            text: "No fue posible generar una ruta " ,
+            icon: 'error',
+          })
+          //this.request= [3,4,5,6,7,8,9,8,7,6,5,3,2,1,3,4,5,6,7,8,9,8,7,6,5,3,2,1,3,4,5,6,7,8,9,8,7,6,5,3,2,1]
+        }
       }
-    }});
+    );
   }
 }
