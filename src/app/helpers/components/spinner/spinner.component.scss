@@ -23,7 +23,7 @@
     left: 50%;
     top: 60%;
     transform: translate(-50%, -100%);
-    color: rgba(45, 139, 202, 0.877);
+    color: rgba(255, 255, 255, 0.877);
     font-family: Arial, sans-serif;
   }
   .loader-line-mask {
@@ -43,6 +43,6 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    box-shadow: inset 0 0 0 4px rgba(33, 123, 207, 0.5);
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.5);
   }
   @keyframes rotate { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);}}
