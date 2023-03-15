@@ -17,6 +17,10 @@ export class DroneComponent {
   showCoordinates:boolean=false;
   request:any[]=[];
   isLoading:boolean=false;
+  //ENTREGAS DE CLIENTES
+  customerDelivery:any[]=[];
+  //RECOGIDAS DE CLIENTES
+  customerColletion:any[]=[];
   constructor(private formBuilder: FormBuilder,
     public bsLogicService:BusinessService,
     private conService:ConnectionService){
@@ -55,7 +59,6 @@ export class DroneComponent {
     }
   }
 
-
   validateCoordinates(){
     this.clearFormArray(this.coordinatesArray)
     let rows= this.vehicleStation + this.customer;
@@ -76,17 +79,11 @@ export class DroneComponent {
       vehicle_station: vehicle_station,
       customer: customer,
     })
-    this.vehicleForm.controls['coordinates'].value.map((el:any, idx:number) =>{
-      let data = {
-        coordinateX: el.x,
-        coordinateY: el.y,
-        station: (idx+1).toString()
-      }
-      this.conService.insertCoordinates(data).subscribe({
-        next:(el:any)=>{
-          console.log(el);
-        }
-      })
+    // 1. Delete Processes
+    this.conService.deleteProcesses();
+    // 2. Create Station
+    this.conService.createStations({nameTypeStation: 'Deposito',numStation:'0'}).subscribe({
+      next:(res:any)=>{}
     })
     vehicle_station.map((el:any) =>{
       let data = {
@@ -112,9 +109,20 @@ export class DroneComponent {
         }
       })
     })
-    this.conService.createStations({nameTypeStation: 'Deposito',numStation:'0'}).subscribe({
-      next:(res:any)=>{}
-    })
+    // 3. CreateRestrictions
+    this.conService.createRestrictions({
+      nameTypeRestriction: 'Capacidad de carga (Q)',
+      valueRestriction: this.vehicleForm.controls['loading_capacity_vehicle'].value
+    }).subscribe({next:(res:any)=>{}})
+    this.conService.createRestrictions({
+      nameTypeRestriction: 'Capacidad de carga (Q)',
+      valueRestriction: this.vehicleForm.controls['loading_capacity_drone'].value
+    }).subscribe({next:(res:any)=>{}})
+    this.conService.createRestrictions({
+      nameTypeRestriction: 'Rango de Vuelo',
+      valueRestriction: this.vehicleForm.controls['flight_range'].value
+    }).subscribe({next:(res:any)=>{}})
+    // 4. Insert coordinates
     this.vehicleForm.controls['coordinates'].value.map((el:any, idx:number) =>{
       let data = {
         coordinateX: el.x,
@@ -127,22 +135,22 @@ export class DroneComponent {
         }
       })
     })
-    this.conService.createRestrictions({
-      nameTypeRestriction: 'Capacidad de carga (Q)',
-      valueRestriction: this.vehicleForm.controls['loading_capacity_vehicle'].value
-    }).subscribe({next:(res:any)=>{}})
-    this.conService.createRestrictions({
-      nameTypeRestriction: 'Capacidad de carga (Q)',
-      valueRestriction: this.vehicleForm.controls['flight_range'].value
-    }).subscribe({next:(res:any)=>{}})
-    this.conService.createRestrictions({
-      nameTypeRestriction: 'Rango de Vuelo',
-      valueRestriction: this.vehicleForm.controls['loading_capacity_drone'].value
-    }).subscribe({next:(res:any)=>{}})
+    // 5.Calculate Distances
     this.conService.calculateDistances().subscribe({next:(res:any)=>{}});
-    this.conService.saveCloserSavings().subscribe({next:(res:any)=>{}});
+    // 6. Save Closer Station
     this.conService.saveCloserStation().subscribe({next:(res:any)=>{}});
-    this.conService.createPartialWay().subscribe(
+    // 7. Save Closer Saving
+    this.conService.saveCloserSavings().subscribe({next:(res:any)=>{}});
+    // 8. Create Customer Delivery
+    this.conService.createCustomerDelivery().subscribe({next:(res:any)=>{}});
+    // 9. Customer Collection
+    this.conService.customerColletion().subscribe({next:(res:any)=>{}});
+    // 10. Create Resumen
+    this.conService.createResume().subscribe({next:(res:any)=>{}});
+    // 11. Create Partial Way
+    this.conService.createPartialWay().subscribe({next:(res:any)=>{}});
+    // 12. Create Final Way
+    this.conService.createFinalWay().subscribe(
       {
         next:(res:any)=>{
           if (res) {
