@@ -162,4 +162,35 @@ export class ConnectionService {
       headers: headers
     });
   }
+
+  createResume(): Observable<any>{
+    let data={}
+    return this.http.post(`${baseApp}/CreateResume`, data,
+    {
+      headers: headers
+    });
+  }
+
+  createCustomerDelivery(): Observable<any>{
+    let data={}
+    return this.http.post(`${baseApp}/CreateCustomerDelivery`, data,
+    {
+      headers: headers
+    });
+  }
+
+  customerColletion(): Observable<any>{
+    let data={}
+    return this.http.post(`${baseApp}/CustomerColletion`, data,
+    {
+      headers: headers
+    });
+  }
+
+  deleteProcesses(): Observable<any>{
+    return this.http.delete(`${baseApp}/​/DeleteProcesses`,
+    {
+      headers: headers
+    });
+  }
 }
