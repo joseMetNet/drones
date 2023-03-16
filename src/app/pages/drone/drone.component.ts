@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusinessService } from '@service/business.service';
 import { ConnectionService } from '@service/connection.service';
 import Swal from 'sweetalert2';
@@ -142,9 +142,13 @@ export class DroneComponent {
     // 7. Save Closer Saving
     this.conService.saveCloserSavings().subscribe({next:(res:any)=>{}});
     // 8. Create Customer Delivery
-    this.conService.createCustomerDelivery().subscribe({next:(res:any)=>{}});
+    this.conService.createCustomerDelivery().subscribe({
+      next:(res:any)=>{ if (res) this.customerDelivery = res }
+    });
     // 9. Customer Collection
-    this.conService.customerColletion().subscribe({next:(res:any)=>{}});
+    this.conService.customerColletion().subscribe({
+      next:(res:any)=> {if (res) this.customerColletion = res}
+    });
     // 10. Create Resumen
     this.conService.createResume().subscribe({next:(res:any)=>{}});
     // 11. Create Partial Way
@@ -164,11 +168,7 @@ export class DroneComponent {
               confirmButtonText: 'Ver ruta'
             }).then((result) => {
               if (result.value){
-                //console.log(result.value);
-                res.map((el:any)=>{
-                  console.log(el.idStation);
-                  this.request.push(el.idStation)
-                })
+                res.map((el:any)=> this.request.push(el.idStation))
               }
             })
           }
@@ -180,7 +180,6 @@ export class DroneComponent {
             text: "No fue posible generar una ruta " ,
             icon: 'error',
           })
-          //this.request= [3,4,5,6,7,8,9,8,7,6,5,3,2,1,3,4,5,6,7,8,9,8,7,6,5,3,2,1,3,4,5,6,7,8,9,8,7,6,5,3,2,1]
         }
       }
     );

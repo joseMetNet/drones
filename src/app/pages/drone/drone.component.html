@@ -109,16 +109,50 @@
 	</div>
 </form>
 <div class="row justify-content-center mt-4">
-	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="request.length>0" >
-		<div class="row justify-content-center">
-			<fieldset class="col-10 col-sm-8 col-md-10 d-flex justify-content-center" style="overflow: scroll;">
-				<strong>Ruta</strong>
-				<div class="d-flex align-items-center mt-3">
-					<div class="p-2" *ngFor="let item of request">
-						<p><strong>{{item}}</strong></p>
-					</div>
+	<div class="col-12 col-md-8 card mx-1 px-5 py-4  my-3" *ngIf="request.length>0" >
+		<div class="row justify-content-center"  style="overflow: scroll;">
+			<strong>Ruta</strong>
+			<div class="d-flex align-items-center mt-3">
+				<div class="p-2" *ngFor="let item of request">
+					<p><strong>{{item}}</strong></p>
 				</div>
-			</fieldset>
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-md-4 card mx-1 px-5 py-4 my-3 d-flex justify-content-center align-items-center" *ngIf="customerDelivery.length>0" style="height: 360px;">
+		<div style="height: 300px;overflow: scroll;">
+			<table class="table text-center">
+				<thead>
+					<tr>
+					<th scope="col">Estación Vehículo</th>
+					<th scope="col">Peso a cargar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of customerDelivery">
+					<td scope="row">{{item.stationVehicle}}</td>
+					<td>{{item.delivery}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-12 col-md-4 card mx-1 px-5 py-4 my-3 d-flex justify-content-center align-items-center" *ngIf="customerColletion.length>0" style="height: 360px;">
+		<div style="height: 300px;overflow: scroll;">
+			<table class="table text-center">
+				<thead>
+					<tr>
+					<th scope="col">Estación</th>
+					<th scope="col">Peso a recoger</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of customerColletion">
+					<td scope="row">{{item.stationClient}}</td>
+					<td>{{item.collections}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
