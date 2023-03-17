@@ -60,12 +60,23 @@ export class DroneComponent {
   }
 
   validateCoordinates(){
+    this.conService.deleteProcesses();
+    this.cleanData()
+    this.vehicleForm.patchValue({
+      coordinates:[]
+    })
     this.clearFormArray(this.coordinatesArray)
     let rows= this.vehicleStation + this.customer;
     for (let i = 0; i <= rows; i++) {
         this.addCoordinates()
     }
     this.showCoordinates = true;
+    this.request = []
+  }
+
+  cleanData(){
+    this.customerDelivery = []
+    this.customerColletion = []
     this.request = []
   }
 
