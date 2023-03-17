@@ -188,7 +188,7 @@ export class ConnectionService {
   }
 
   deleteProcesses(): Observable<any>{
-    return this.http.delete(`${baseApp}/​/DeleteProcesses`,
+    return this.http.delete(`${baseApp}/DeleteProcesses`,
     {
       headers: headers
     });
