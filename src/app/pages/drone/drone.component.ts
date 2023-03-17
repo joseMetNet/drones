@@ -11,8 +11,10 @@ import Swal from 'sweetalert2';
 })
 export class DroneComponent {
   vehicleForm:FormGroup;
-  customer:number=1;
-  vehicleStation:number=1;
+  customer:any;
+  vehicleStation:any;
+  vehicleStationNumber:number=1;;
+  customerNumber:number=1;;
   deposit:number=1;
   showCoordinates:boolean=false;
   request:any[]=[];
@@ -26,18 +28,22 @@ export class DroneComponent {
     private conService:ConnectionService){
     this.vehicleForm = this.formBuilder.group({
       deposit: [0, [Validators.required]],
-      vehicle_station: [0, [Validators.required]],
-      cost_per_vehicle: [0, [Validators.required]],
-      customer: [0, [Validators.required]],
-      cost_per_drone: [0, [Validators.required]],
+      vehicle_station: [null, [Validators.required]],
+      cost_per_vehicle: [null, [Validators.required]],
+      customer: [null, [Validators.required]],
+      cost_per_drone: [null, [Validators.required]],
       loading_capacity_vehicle: [null, [Validators.required]],
       flight_range: [null, [Validators.required]],
       loading_capacity_drone: [null, [Validators.required]],
       coordinates: this.formBuilder.array([])
     })
+    // 1. Delete Processes
+    this.conService.deleteProcesses();
     this.vehicleForm.valueChanges.subscribe(data => {
-      this.vehicleStation = data.vehicle_station ? data.vehicle_station.split(',').length : 1;
-      this.customer = data.customer ? data.customer.split(',').length : 1;
+      this.customer = data.customer.toString().split(',')
+      this.vehicleStation = data.vehicle_station.toString().split(',')
+      this.vehicleStationNumber = data.vehicle_station ? this.vehicleStation.length : 1;
+      this.customerNumber = data.customer ? this.customer.length : 1;
     });
   }
 
@@ -54,72 +60,51 @@ export class DroneComponent {
   }
 
   clearFormArray = (formArray: FormArray) => {
-    while (formArray.length !== 0) {
-      formArray.removeAt(0)
-    }
+    while (formArray.length !== 0) formArray.removeAt(0)
   }
 
   validateCoordinates(){
-    this.conService.deleteProcesses();
-    this.cleanData()
-    this.vehicleForm.patchValue({
-      coordinates:[]
-    })
+    this.vehicleForm.patchValue({coordinates:[]})
     this.clearFormArray(this.coordinatesArray)
-    let rows= this.vehicleStation + this.customer;
-    for (let i = 0; i <= rows; i++) {
-        this.addCoordinates()
-    }
-    this.showCoordinates = true;
-    this.request = []
-  }
-
-  cleanData(){
-    this.customerDelivery = []
+    let rows= this.vehicleStationNumber + this.customerNumber;
+    for (let i = 0; i <= rows; i++) this.addCoordinates()
+    /* this.customerDelivery = []
     this.customerColletion = []
-    this.request = []
+    this.request = [] */
+    this.showCoordinates = true;
   }
 
   onSubmit(){
+    // 1. Delete Processes
+    this.conService.deleteProcesses();
     this.isLoading = true;
-    let deposit= this.vehicleForm.controls['deposit'].value.toString().split(',');
-    let vehicle_station= this.vehicleForm.controls['vehicle_station'].value.toString().split(',');
-    let customer= this.vehicleForm.controls['customer'].value.toString().split(',');
+    let deposit= '0';
+    let vehicle_station= this.vehicleStation
+    let customer= this.customer
     this.vehicleForm.patchValue({
       deposit: deposit,
       vehicle_station: vehicle_station,
       customer: customer,
     })
-    // 1. Delete Processes
-    this.conService.deleteProcesses();
+    let arrayStation = []
     // 2. Create Station
-    this.conService.createStations({nameTypeStation: 'Deposito',numStation:'0'}).subscribe({
-      next:(res:any)=>{}
-    })
+    arrayStation.push({nameTypeStation: 'Deposito',numStation:'0'})
     vehicle_station.map((el:any) =>{
-      let data = {
-        nameTypeStation: 'Vehicles',
-        numStation: el
-      }
-      console.log('vehicleForm', data);
-      this.conService.createStations(data).subscribe({
-        next:(el:any)=>{
-          console.log(el);
-        }
-      })
+      let data = { nameTypeStation: 'Vehicles', numStation: el }
+      arrayStation.push(data)
     })
     customer.map((el:any) =>{
-      let data = {
-        nameTypeStation: 'Client',
-        numStation: el
-      }
-      console.log('customer',data);
-      this.conService.createStations(data).subscribe({
-        next:(el:any)=>{
-          console.log(el);
+      let data = { nameTypeStation: 'Client', numStation: el }
+      arrayStation.push(data)
+    })
+    arrayStation.map(el =>{
+      this.conService.createStations(el).subscribe({
+        next:(res:any)=>{
+          console.log(res);
         }
       })
     })
+    console.log(arrayStation)
     // 3. CreateRestrictions
     this.conService.createRestrictions({
       nameTypeRestriction: 'Capacidad de carga (Q)',
@@ -168,6 +153,7 @@ export class DroneComponent {
     this.conService.createFinalWay().subscribe(
       {
         next:(res:any)=>{
+          alert(JSON.stringify(res))
           if (res) {
             this.isLoading = false;
             Swal.fire({
