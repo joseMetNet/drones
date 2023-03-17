@@ -187,10 +187,10 @@ export class ConnectionService {
     });
   }
 
-  deleteProcesses(): Observable<any>{
-    return this.http.delete(`${baseApp}/DeleteProcesses`,
-    {
-      headers: headers
-    });
+  deleteProcesses(){
+    return this.http.delete(`${baseApp}/DeleteProcesses`).subscribe(
+      (val) => {console.log("DELETE call successful value returned in body", val);},
+      response => {console.log("DELETE call in error", response);},
+      () => {console.log("The DELETE observable is now completed.");});
   }
 }
