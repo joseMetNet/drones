@@ -68,9 +68,9 @@ export class DroneComponent {
     this.clearFormArray(this.coordinatesArray)
     let rows= this.vehicleStationNumber + this.customerNumber;
     for (let i = 0; i <= rows; i++) this.addCoordinates()
-    /* this.customerDelivery = []
+    this.customerDelivery = []
     this.customerColletion = []
-    this.request = [] */
+    this.request = []
     this.showCoordinates = true;
   }
 
@@ -132,11 +132,14 @@ export class DroneComponent {
       })
     })
     // 5.Calculate Distances
-    this.conService.calculateDistances().subscribe({next:(res:any)=>{}});
+    this.conService.calculateDistances().subscribe({next:(res:any)=>{console.log(res);
+    }});
     // 6. Save Closer Station
-    this.conService.saveCloserStation().subscribe({next:(res:any)=>{}});
+    this.conService.saveCloserStation().subscribe({next:(res:any)=>{console.log(res);
+    }});
     // 7. Save Closer Saving
-    this.conService.saveCloserSavings().subscribe({next:(res:any)=>{}});
+    this.conService.saveCloserSavings().subscribe({next:(res:any)=>{console.log(res);
+    }});
     // 8. Create Customer Delivery
     this.conService.createCustomerDelivery().subscribe({
       next:(res:any)=>{ if (res) this.customerDelivery = res }
@@ -146,14 +149,15 @@ export class DroneComponent {
       next:(res:any)=> {if (res) this.customerColletion = res}
     });
     // 10. Create Resumen
-    this.conService.createResume().subscribe({next:(res:any)=>{}});
+    this.conService.createResume().subscribe({next:(res:any)=>{console.log(res);
+    }});
     // 11. Create Partial Way
-    this.conService.createPartialWay().subscribe({next:(res:any)=>{}});
+    this.conService.createPartialWay().subscribe({next:(res:any)=>{console.log(res);
+    }});
     // 12. Create Final Way
     this.conService.createFinalWay().subscribe(
       {
         next:(res:any)=>{
-          alert(JSON.stringify(res))
           if (res) {
             this.isLoading = false;
             Swal.fire({
@@ -180,5 +184,6 @@ export class DroneComponent {
         }
       }
     );
+    this.vehicleForm.reset();
   }
 }
