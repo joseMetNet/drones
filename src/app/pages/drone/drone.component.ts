@@ -86,8 +86,10 @@ export class DroneComponent {
       vehicle_station: vehicle_station,
       customer: customer,
     })
-    let arrayStation = []
     // 2. Create Station
+    setTimeout(() => {
+      
+    let arrayStation = []
     arrayStation.push({nameTypeStation: 'Deposito',numStation:'0'})
     vehicle_station.map((el:any) =>{
       let data = { nameTypeStation: 'Vehicles', numStation: el }
@@ -105,20 +107,33 @@ export class DroneComponent {
       })
     })
     console.log(arrayStation)
+    }, 100);
     // 3. CreateRestrictions
+    setTimeout(() => {
+      
     this.conService.createRestrictions({
       nameTypeRestriction: 'Capacidad de carga (Q)',
       valueRestriction: this.vehicleForm.controls['loading_capacity_vehicle'].value
     }).subscribe({next:(res:any)=>{}})
+    }, 500);
+    setTimeout(() => {
+      
     this.conService.createRestrictions({
       nameTypeRestriction: 'Capacidad de carga (Q)',
       valueRestriction: this.vehicleForm.controls['loading_capacity_drone'].value
     }).subscribe({next:(res:any)=>{}})
+    }, 900);
+
+    setTimeout(() => {
+      
     this.conService.createRestrictions({
       nameTypeRestriction: 'Rango de Vuelo',
       valueRestriction: this.vehicleForm.controls['flight_range'].value
     }).subscribe({next:(res:any)=>{}})
+    }, 1300);
     // 4. Insert coordinates
+    setTimeout(() => {
+      
     this.vehicleForm.controls['coordinates'].value.map((el:any, idx:number) =>{
       let data = {
         coordinateX: el.x,
@@ -134,26 +149,47 @@ export class DroneComponent {
     // 5.Calculate Distances
     this.conService.calculateDistances().subscribe({next:(res:any)=>{console.log(res);
     }});
+    }, 1700);
+    setTimeout(() => {
+      
     // 6. Save Closer Station
     this.conService.saveCloserStation().subscribe({next:(res:any)=>{console.log(res);
     }});
+    }, 2100);
+    setTimeout(() => {
     // 7. Save Closer Saving
     this.conService.saveCloserSavings().subscribe({next:(res:any)=>{console.log(res);
     }});
+      
+    }, 2500);
+    setTimeout(() => {
+      
     // 8. Create Customer Delivery
     this.conService.createCustomerDelivery().subscribe({
       next:(res:any)=>{ if (res) this.customerDelivery = res }
     });
+    }, 2900);
+    setTimeout(() => {
+      
     // 9. Customer Collection
     this.conService.customerColletion().subscribe({
       next:(res:any)=> {if (res) this.customerColletion = res}
     });
+    }, 3300);
+    setTimeout(() => {
+      
     // 10. Create Resumen
     this.conService.createResume().subscribe({next:(res:any)=>{console.log(res);
     }});
+    }, 3700);
+    setTimeout(() => {
+      
     // 11. Create Partial Way
     this.conService.createPartialWay().subscribe({next:(res:any)=>{console.log(res);
     }});
+    }, 4100);
+    setTimeout(() => {
+      
     // 12. Create Final Way
     this.conService.createFinalWay().subscribe(
       {
@@ -184,6 +220,7 @@ export class DroneComponent {
         }
       }
     );
-    this.vehicleForm.reset();
+    }, 4500);
+    //this.vehicleForm.reset();
   }
 }
