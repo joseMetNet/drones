@@ -132,9 +132,9 @@ export class DroneComponent {
       })
     })
     // 5.Calculate Distances
-    this.conService.calculateDistances({stringStation: this.vehicleForm.controls['deposit'].value}).subscribe({next:(res:any)=>{console.log(res);}});
+    //this.conService.calculateDistances({stringStation: this.vehicleForm.controls['deposit'].value}).subscribe({next:(res:any)=>{console.log(res);}});
     this.conService.calculateDistances({stringStation: this.vehicleForm.controls['vehicle_station'].value}).subscribe({next:(res:any)=>{console.log(res);}});
-    this.conService.calculateDistances({stringStation: this.vehicleForm.controls['customer'].value}).subscribe({next:(res:any)=>{console.log(res);}});
+    //this.conService.calculateDistances({stringStation: this.vehicleForm.controls['customer'].value}).subscribe({next:(res:any)=>{console.log(res);}});
     // 6. Save Closer Station
     this.conService.saveCloserStation().subscribe({next:(res:any)=>{console.log(res);
     }});
