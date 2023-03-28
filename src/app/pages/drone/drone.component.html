@@ -1,5 +1,5 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
-<form class="row  justify-content-center align-items-start" [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+<form class="row  justify-content-center align-items-stretch" [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
 	<div class="col-12 col-md-6 card px-5 py-4  mx-1">
 		<div class="row align-items-center">
 			<fieldset class="col-10 col-sm-6 col-md-6">
@@ -85,7 +85,7 @@
 		</div>
 	</div>
 	<div class="col-12 col-md-5 card mx-1 px-5 py-4 " *ngIf="showCoordinates">
-		<div class="row">
+		<div class="row align-items-center" style="height: 100%;">
 			<fieldset class="col-10 col-sm-8 col-md-10 d-flex justify-content-center" >
 				<strong>Coordenadas</strong>
 				<br>
