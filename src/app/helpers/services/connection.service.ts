@@ -127,9 +127,8 @@ export class ConnectionService {
     });
   }
 
-  calculateDistances(): Observable<any>{
-    let data={}
-    return this.http.post(`${baseApp}/CalculateDistances`, data,
+  calculateDistances(stringStation:any): Observable<any>{
+    return this.http.post(`${baseApp}/CalculateDistances`, stringStation,
     {
       headers: headers
     });
