@@ -11,6 +11,7 @@
 						<input type="text" formControlName="deposit" class="form-control" id="deposito" aria-describedby="deposito"
 						(paste)="bsLogicService.onPasteCheckNumber($event)"
 						(keypress)="bsLogicService.checkNumber($event)"/>
+						<span class="input-group-text" id="deposito" [ngStyle]="{'background':'#05cdff'}"> </span>
 					</div>
 				</div>
 				<div class="">
@@ -18,6 +19,7 @@
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="EstacionVehiculo">{{vehicleStationNumber ? vehicleStationNumber : 0}}</span>
 						<input type="text" formControlName="vehicle_station" class="form-control" id="EstacionVehiculo" aria-describedby="EstacionVehiculo"/>
+						<span class="input-group-text" id="deposito" [ngStyle]="{'background':'#ff7e05'}"> </span>
 					</div>
 				</div>
 				<div class="">
@@ -34,6 +36,7 @@
 							{{customerNumber ? customerNumber : 0}}
 						</span>
 						<input type="text" formControlName="customer" class="form-control" id="clienteDron" aria-describedby="clienteDron"/>
+						<span class="input-group-text" id="deposito" [ngStyle]="{'background':'#05ff82'}"> </span>
 					</div>
 				</div>
 				<div class="">
@@ -109,17 +112,35 @@
 	</div>
 </form>
 <div class="row justify-content-center mt-4">
-	<div class="col-12 col-md-8 card mx-1 px-5 py-4  my-3" *ngIf="request.length>0" >
+	<div class="col-12 col-md-8 card mx-1 px-5 py-4  my-3" *ngIf="request.length>0 && isLoadingCard" >
 		<div class="row justify-content-center"  style="overflow: scroll;">
-			<strong>Ruta</strong>
+			<strong class="py-3">Ruta</strong>
 			<div class="d-flex align-items-center mt-3">
-				<div class="p-2" *ngFor="let item of request">
+				<div class="p-2 box-route" *ngFor="let item of request"
+				[ngStyle]="{'background': 	vehicleStation.indexOf(item) != -1? '#ff7e05' :
+											customer.indexOf(item)  != -1? '#05ff82': '#05cdff'}"
+				>
 					<p><strong>{{item}}</strong></p>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-12 col-md-4 card mx-1 px-5 py-4 my-3 d-flex justify-content-center align-items-center" *ngIf="customerDelivery.length>0" style="height: 360px;">
+	<!-- Ruta Alternativa -->
+	<div class="col-12 col-md-8 card mx-1 px-5 py-4  my-3" *ngIf="alternatePath.length>0 && isLoadingCard" >
+		<div class="row justify-content-center"  style="overflow: scroll;">
+			<strong>Ruta Alternativa</strong>
+			<div class="d-flex align-items-center mt-3">
+				<div class="p-2 box-route" *ngFor="let item of alternatePath"
+				[ngStyle]="{'background': 	vehicleStation.indexOf(item) != -1? '#ff7e05' :
+											customer.indexOf(item)  != -1? '#05ff82': '#05cdff'}"
+				>
+					<p><strong>{{item}}</strong></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Peso a cargar -->
+	<div class="col-12 col-md-4 card mx-1 px-5 py-4 my-3 d-flex justify-content-center align-items-center" *ngIf="customerDelivery.length>0 && isLoadingCard" style="height: 360px;">
 		<div style="height: 300px;overflow: scroll;">
 			<table class="table text-center">
 				<thead>
@@ -137,7 +158,8 @@
 			</table>
 		</div>
 	</div>
-	<div class="col-12 col-md-4 card mx-1 px-5 py-4 my-3 d-flex justify-content-center align-items-center" *ngIf="customerColletion.length>0" style="height: 360px;">
+	<!-- Peso a recoger -->
+	<div class="col-12 col-md-4 card mx-1 px-5 py-4 my-3 d-flex justify-content-center align-items-center" *ngIf="customerColletion.length>0 && isLoadingCard" style="height: 360px;">
 		<div style="height: 300px;overflow: scroll;">
 			<table class="table text-center">
 				<thead>

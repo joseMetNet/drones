@@ -192,4 +192,12 @@ export class ConnectionService {
       response => {console.log("DELETE call in error", response);},
       () => {console.log("The DELETE observable is now completed.");});
   }
+
+  generadoRand(): Observable<any>{
+    let data={}
+    return this.http.post(`${baseApp}/GeneradoRand`, data,
+    {
+      headers: headers
+    });
+  }
 }

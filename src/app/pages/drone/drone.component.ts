@@ -19,10 +19,18 @@ export class DroneComponent {
   showCoordinates: boolean = false;
   request: any[] = [];
   isLoading: boolean = false;
+  rangos:any[]=[]
+  colors:any[]=[
+    {rango:0, color:'#f33e0d'},
+    {rango:3, color:'#06cb03'},
+    {rango:6, color:'#036acb'},
+  ];
   //ENTREGAS DE CLIENTES
   customerDelivery: any[] = [];
   //RECOGIDAS DE CLIENTES
   customerColletion: any[] = [];
+  alternatePath: any[] = [];
+  isLoadingCard:boolean=false
   constructor(private formBuilder: FormBuilder,
     public bsLogicService: BusinessService,
     private conService: ConnectionService) {
@@ -64,6 +72,7 @@ export class DroneComponent {
   }
 
   validateCoordinates() {
+    this.isLoadingCard = false
     this.vehicleForm.patchValue({ coordinates: [] })
     this.clearFormArray(this.coordinatesArray)
     let rows = this.vehicleStationNumber + this.customerNumber;
@@ -71,6 +80,7 @@ export class DroneComponent {
     this.customerDelivery = []
     this.customerColletion = []
     this.request = []
+    this.alternatePath = []
     this.showCoordinates = true;
   }
 
@@ -178,10 +188,19 @@ export class DroneComponent {
                                             confirmButtonText: 'Ver ruta'
                                           }).then((result) => {
                                             if (result.value) {
-                                              res.map((el: any) => this.request.push(el.idStation))
+                                              res.map((el: any) => this.request.push(el.idStation.trim()))
+                                              this.isLoadingCard = true
                                             }
                                           })
                                         }
+                                      },
+                                      complete:()=>{
+                                        this.conService.generadoRand().subscribe({
+                                          next:(response)=>{
+                                            response.map((el: any) => this.alternatePath.push(el.idStation.trim()))
+                                            this.alternatePath = this.alternatePath.filter(Boolean)
+                                          },
+                                        })
                                       },
                                       error: (err) => {
                                         this.isLoading = false;
@@ -209,4 +228,40 @@ export class DroneComponent {
       });
     }, 1000);
   }
+
+  getColor(variable:any, rangos:any, colores:any) {
+    for (let i = 0; i < rangos.length; i++) {
+      if (variable < rangos[i]) {
+        const rangoAnterior = rangos[i-1];
+        const rangoActual = rangos[i];
+        const colorAnterior = colores[i-1].color;
+        const colorActual = colores[i].color;
+        const fraccion = (variable - rangoAnterior) / (rangoActual - rangoAnterior);
+        return this.blendColors(colorAnterior, colorActual, fraccion);
+      }
+    }
+    // Si la variable es mayor o igual al último rango, devolvemos el último color
+    return colores[colores.length-1].color;
+  }
+
+  blendColors(color1:any, color2:any, ratio:any) {
+    const hexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+    const [, r1, g1, b1] = hexRegex.exec(color1);
+    const [, r2, g2, b2] = hexRegex.exec(color2);
+    const r = Math.round(parseInt(r1, 16) * (1 - ratio) + parseInt(r2, 16) * ratio);
+    const g = Math.round(parseInt(g1, 16) * (1 - ratio) + parseInt(g2, 16) * ratio);
+    const b = Math.round(parseInt(b1, 16) * (1 - ratio) + parseInt(b2, 16) * ratio);
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  }
+
+  // Ejemplo de uso
+  /* const rangos = [0, 5, 10, 15];
+  const colores = [  {rango:0, color:'#009A00'},  {rango:5, color:'#FFBA30'},  {rango:10, color:'#744D00'},  {rango:15, color:'#999999'}];
+  
+  const valores = [1, 2, 3, 4, 11, 12, 13, 14];
+  
+  for (const valor of valores) {
+    console.log(getColor(valor, rangos, colores));
+  } */
+
 }
