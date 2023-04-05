@@ -29,7 +29,7 @@ export class DroneComponent {
   customerDelivery: any[] = [];
   //RECOGIDAS DE CLIENTES
   customerColletion: any[] = [];
-  alternatePath: any[] = [];
+  alternatePath: any[] = Array(1).fill([]);
   isLoadingCard:boolean=false
   constructor(private formBuilder: FormBuilder,
     public bsLogicService: BusinessService,
@@ -197,8 +197,23 @@ export class DroneComponent {
                                       complete:()=>{
                                         this.conService.generadoRand().subscribe({
                                           next:(response)=>{
-                                            response.map((el: any) => this.alternatePath.push(el.idStation.trim()))
-                                            this.alternatePath = this.alternatePath.filter(Boolean)
+                                            let data:any[] = [];
+                                            response.map((el: any) => data.push(el.numWay.trim()))
+                                            let listNumWayList = new Set(data);
+                                            let result = [...listNumWayList];
+                                            let listItems:any[] = []
+                                            result.map((element:any, idx:number)=>{
+                                              listItems = []
+                                              response.map((el:any)=>{
+                                                if (element.toString() === el.numWay.toString()) {
+                                                  listItems.push(el.idStation.trim())
+                                                  console.log(listItems);
+                                                }
+                                              })
+                                              this.alternatePath.push(listItems.filter(Boolean))
+                                              console.log(this.alternatePath);
+                                              //this.alternatePath[idx] = this.alternatePath[idx]
+                                            })
                                           },
                                         })
                                       },
